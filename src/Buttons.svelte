@@ -2,9 +2,12 @@
     let clicked = "";
     let total = "";
     function onNumberClick(number) {
-        debugger;
         if (number === "=") {
-            total = eval(clicked);
+            try {
+                total = eval(clicked);
+            } catch (error) {
+                total = "error";
+            }
         } else {
             clicked = clicked + number;
         }
@@ -19,11 +22,17 @@
 </script>
 
 <div class="h-auto w-80 flex flex-col border-2 border-gray-300 bg-gray-300">
-    <input
-        bind:value={clicked}
-        class="flex-auto h-10 w-full border-2 bg-white"
-    />
-    <input bind:value={total} class="flex-auto h-10 w-full border-2 bg-white" />
+    {#if total == ""}
+        <input
+            bind:value={clicked}
+            class="flex-auto h-10 w-full border-2 bg-white p-2"
+        />
+    {:else}
+        <input
+            bind:value={total}
+            class="flex-auto h-10 w-full border-2 bg-white p-2"
+        />
+    {/if}
     <div class="flex-auto h-auto w-full flex flex-row">
         <button
             on:click={onClear}
